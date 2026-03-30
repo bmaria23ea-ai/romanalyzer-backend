@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // ── CONEXIÓN SQLite ──────────────────────────────────────────────────
 // /data es el disco persistente montado en Render
 // En desarrollo local puedes usar __DIR__.'/../romanalyzer.db'
-$dbPath = '/data/romanalyzer.db';
+$dbPath = '/tmp/romanalyzer.db';
 try {
     $db = new PDO('sqlite:'.$dbPath);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
