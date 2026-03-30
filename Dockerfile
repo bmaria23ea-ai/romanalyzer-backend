@@ -4,7 +4,12 @@
 # ────────────────────────────────────────────────────────────────────
 FROM php:8.2-apache
 
-# Instalar extensión PDO + SQLite
+# Instalar librerías del sistema necesarias para SQLite
+RUN apt-get update && apt-get install -y \
+    libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar extensiones PHP para SQLite
 RUN docker-php-ext-install pdo pdo_sqlite
 
 # Activar módulos de Apache necesarios
