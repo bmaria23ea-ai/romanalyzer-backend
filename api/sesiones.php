@@ -1,15 +1,37 @@
 <?php
-header('Access-Control-Allow-Origin: *');
+// ── Orígenes permitidos ──────────────────────────────────────────────────────
+$allowed_origins = [
+    'https://romanalyzer.onrender.com',   // frontend en Render
+    'http://localhost',                    // desarrollo local
+    'http://127.0.0.1',
+];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowed_origins, true)) {
+    header("Access-Control-Allow-Origin: $origin");
+} else {
+    header('Access-Control-Allow-Origin: https://romanalyzer.onrender.com');
+}
 header('Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-API-Key');
+header('Access-Control-Allow-Credentials: false');
 header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204); exit;
 }
 
-define('TURSO_URL',   'https://romanalyzer-bmaria23ea-ai.aws-us-east-1.turso.io');
-define('TURSO_TOKEN', 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NzU5NTk1MzgsImlkIjoiMDE5ZDdmNmYtNDUwMS03MDkwLThhYmEtMGZiN2M4M2Y0Yzk4IiwicmlkIjoiY2RmYWVmMGUtOTliNC00MDhjLWFjZDYtNmU1NzU0MWRlNjlmIn0.R5cOhvHRfGp731jVZKXQJ0xqLAIOThX3YY3uQAm-eX5NqN1uLmzWRBOrBx952r8cqKBI6CIVdlDZuw8LSmynAQ');
+// ── API Key ──────────────────────────────────────────────────────────────────
+$api_key = getenv('ROM_API_KEY');
+$req_key = $_SERVER['HTTP_X_API_KEY'] ?? '';
+if ($api_key && $req_key !== $api_key) {
+    http_response_code(401);
+    echo json_encode(['error' => 'unauthorized']);
+    exit;
+}
+
+// ── Credenciales Turso (variables de entorno) ────────────────────────────────
+define('TURSO_URL',   getenv('TURSO_URL')   ?: '');
+define('TURSO_TOKEN', getenv('TURSO_TOKEN') ?: '');
 
 function turso($stmts) {
     $reqs = array_map(fn($s) => ['type'=>'execute','stmt'=>isset($s['args'])
@@ -47,7 +69,7 @@ try {
     }elseif($method==='POST'){
         $body=json_decode(file_get_contents('php://input'),true);
         if(!$body||!isset($body['id'])){http_response_code(400);echo json_encode(['error'=>'invalid']);exit;}
-        turso([['sql'=>"INSERT INTO sesiones(id,data,created_at)VALUES(:id,:data,:cat)",'args'=>[':id'=>$body['id'],':data'=>json_encode($body),':cat'=>$body['fin']]]]);
+        turso([['sql'=>"INSERT INTO sesiones(id,data)VALUES(:id,:data)",'args'=>[':id'=>$body['id'],':data'=>json_encode($body)]]]);
         http_response_code(201);echo json_encode(['ok'=>true,'id'=>$body['id']]);
 
     }elseif($method==='PATCH'&&$id){
