@@ -47,7 +47,7 @@ try {
     }elseif($method==='POST'){
         $body=json_decode(file_get_contents('php://input'),true);
         if(!$body||!isset($body['id'])){http_response_code(400);echo json_encode(['error'=>'invalid']);exit;}
-        turso([['sql'=>"INSERT INTO sesiones(id,data)VALUES(:id,:data)",'args'=>[':id'=>$body['id'],':data'=>json_encode($body)]]]);
+        turso([['sql'=>"INSERT INTO sesiones(id,data,created_at)VALUES(:id,:data,:cat)",'args'=>[':id'=>$body['id'],':data'=>json_encode($body),':cat'=>$body['fin']]]]);
         http_response_code(201);echo json_encode(['ok'=>true,'id'=>$body['id']]);
 
     }elseif($method==='PATCH'&&$id){
