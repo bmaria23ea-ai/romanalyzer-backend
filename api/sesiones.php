@@ -1,7 +1,8 @@
 <?php
 // ── Orígenes permitidos ──────────────────────────────────────────────────────
 $allowed_origins = [
-    'https://romanalyzer.onrender.com',   // frontend en Render
+    'https://bmaria23ea-ai.github.io',    // frontend en GitHub Pages
+    'https://romanalyzer.onrender.com',   // frontend en Render (si aplica)
     'http://localhost',                    // desarrollo local
     'http://127.0.0.1',
 ];
@@ -9,7 +10,7 @@ $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if (in_array($origin, $allowed_origins, true)) {
     header("Access-Control-Allow-Origin: $origin");
 } else {
-    header('Access-Control-Allow-Origin: https://romanalyzer.onrender.com');
+    header('Access-Control-Allow-Origin: https://bmaria23ea-ai.github.io');
 }
 header('Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, X-API-Key');
