@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 define('TURSO_URL',   'https://romanalyzer-bmaria23ea-ai.aws-us-east-1.turso.io');
-define('TURSO_TOKEN', 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NzU5MzUyOTYsImlkIjoiMDE5ZDdkZmMtNDIwMS03ZDVkLWJkNDQtZDg0MzA2ODFjZTM2IiwicmlkIjoiM2RjNWNhZDEtMzA3Mi00OTIzLTgyNDEtOTRiMWRmMDlhYzUyIn0.GxQFAhBXkhYOwn4Cq5EXg1e5gxOi1AAUPXHDXrw0Nbelnrf6x8EA5B8UxAXaaKlbAVCY41-xAV7YHN3uqOeSAA');
+define('TURSO_TOKEN', 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NzU5NTk1MzgsImlkIjoiMDE5ZDdmNmYtNDUwMS03MDkwLThhYmEtMGZiN2M4M2Y0Yzk4IiwicmlkIjoiY2RmYWVmMGUtOTliNC00MDhjLWFjZDYtNmU1NzU0MWRlNjlmIn0.R5cOhvHRfGp731jVZKXQJ0xqLAIOThX3YY3uQAm-eX5NqN1uLmzWRBOrBx952r8cqKBI6CIVdlDZuw8LSmynAQ');
 
 function turso($stmts) {
     $reqs = array_map(fn($s) => ['type'=>'execute','stmt'=>isset($s['args'])
