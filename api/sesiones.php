@@ -1,9 +1,8 @@
 <?php
-// ── Orígenes permitidos ──────────────────────────────────────────────────────
 $allowed_origins = [
-    'https://bmaria23ea-ai.github.io',    // frontend en GitHub Pages
-    'https://romanalyzer.onrender.com',   // frontend en Render (si aplica)
-    'http://localhost',                    // desarrollo local
+    'https://bmaria23ea-ai.github.io',    // GitHub 
+    'https://romanalyzer.onrender.com',   // Render
+    'http://localhost',                   // ocal
     'http://127.0.0.1',
 ];
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
@@ -21,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204); exit;
 }
 
-// ── API Key ──────────────────────────────────────────────────────────────────
+//contraseña
 $api_key = getenv('ROM_API_KEY');
 $req_key = $_SERVER['HTTP_X_API_KEY'] ?? '';
 if ($api_key && $req_key !== $api_key) {
@@ -30,7 +29,7 @@ if ($api_key && $req_key !== $api_key) {
     exit;
 }
 
-// ── Credenciales Turso (variables de entorno) ────────────────────────────────
+//credenciales de TURSO
 define('TURSO_URL',   getenv('TURSO_URL')   ?: '');
 define('TURSO_TOKEN', getenv('TURSO_TOKEN') ?: '');
 
