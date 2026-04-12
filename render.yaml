@@ -1,36 +1,11 @@
-# ─────────────────────────────────────────────────────────────────────
-# render.yaml — Infrastructure as Code para Render.com
-# Puedes crear el servicio desde el dashboard o apuntando a este archivo
-# ─────────────────────────────────────────────────────────────────────
-
 services:
   - type: web
-    name: romanalyzer-api
+    name: Backend
     runtime: docker
     dockerfilePath: ./Dockerfile
-
-    # Plan gratuito de Render
+    # Plan gratuito, NO incluye disco persistente.La DB SQLite se borra en cada deploy/restart.
     plan: free
-
     # Variables de entorno
     envVars:
       - key: PORT
-        value: 10000   # Render usa este puerto por defecto
-
-    # ── Disco persistente ──────────────────────────────────────────
-    # IMPORTANTE: el plan gratuito NO incluye disco persistente.
-    # Sin esto, la base de datos SQLite se borra en cada deploy/restart.
-    #
-    # Opciones:
-    #   A) Añadir el disco de pago ($1/GB/mes) descomentando lo siguiente:
-    #
-    # disk:
-    #   name: romanalyzer-db
-    #   mountPath: /data
-    #   sizeGB: 1
-    #
-    #   B) Usar el plan gratuito temporalmente con almacenamiento efímero
-    #      (los datos duran mientras el contenedor esté vivo, se pierden
-    #       en cada redeploy). Útil para pruebas y desarrollo.
-    #
-    # Para producción real se recomienda la opción A o migrar a Supabase.
+        value: 10000   # Puerto por defecto
